@@ -1,6 +1,6 @@
 const Point typeof System.Drawing.Point
 
-local maxId = 5455
+local maxId = 6145
 
 local startChestPos = Point(4291, 1314)
 local startFramePos = Point(4291, 1288)
@@ -8,7 +8,8 @@ local startFramePos = Point(4291, 1288)
 local partStep = Point(45, -45)
 local partCount = Point(8, 9)
 
-local world = LoadWorld("all_item_world.wld")
+local worldName = "all_item_world_master.wld"
+local world = LoadWorld(worldName)
 print("Load world: " .. world.Name)
 
 local frameId : int = 1
@@ -97,6 +98,5 @@ for partY : int = minChestY, maxChestY, stepChestY  do
     end
 end
 
-world.Name = world.Name .. "_final.wld"
 print("Save world: " .. world.Name)
-SaveWorld(world, world.Name)
+SaveWorld(world)
