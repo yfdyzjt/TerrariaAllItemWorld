@@ -1,5 +1,5 @@
 .vscode/
 
-id/*.exe
+*.exe
 
 id/*.wld
