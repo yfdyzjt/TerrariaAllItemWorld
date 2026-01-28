@@ -28,13 +28,14 @@ namespace Terraria.Chat
                 string ammo = "Ammo", potions = "Potins", food = "Food", bossSummons = "BossSummons", bossBag = "BossBag", bait = "Bait", questFish = "QuestFish", pickup = "Pickup";
                 string materials = "Materials", kites = "Kites", poles = "Poles", paint = "Paint", dyes = "Dyes", oothers = "Others";
 
-                var categories = new Dictionary<string, Dictionary<string, List<Item>>>();
+                var categories = new DefaultDictionary<string, DefaultDictionary<string, List<Item>>>();
 
                 bool[] spears = ItemID.Sets.Factory.CreateBoolSet(ItemID.Spear, ItemID.Trident, ItemID.Swordfish, ItemID.ThunderSpear, ItemID.TheRottedFork, ItemID.DarkLance, ItemID.CobaltNaginata, ItemID.PalladiumPike, ItemID.MythrilHalberd, ItemID.OrichalcumHalberd, ItemID.AdamantiteGlaive, ItemID.TitaniumTrident, ItemID.ObsidianSwordfish, ItemID.Gungnir, ItemID.MushroomSpear, ItemID.MonkStaffT1, ItemID.MonkStaffT2, ItemID.MonkStaffT3, ItemID.ChlorophytePartisan, ItemID.NorthPole);
                 int[] sortingPriorityBossSpawns = ItemID.Sets.Factory.CreateIntSet(-1, 43, 1, 560, 2, 70, 3, 1331, 3, 361, 4, 5120, 5, 1133, 5, 4988, 6, 5334, 7, 544, 8, 556, 9, 557, 10, ItemID.PirateMap, 11, 2673, 12, 602, 13, 1844, 14, 1958, 15, 1293, 16, 2767, 17, 4271, 18, 3601, 19, 1291, 20, 109, 21, 29, 22, 50, 23, 3199, 24, 3124, 25, 5437, 26, 5358, 27, 5359, 28, 5360, 29, 5361, 30, 4263, 31, 4819, 32);
                 List<int> sortingPriorityBossSpawnsExclusions = new List<int> { ItemID.LifeCrystal, ItemID.ManaCrystal, ItemID.CellPhone, ItemID.IceMirror, ItemID.MagicMirror, ItemID.LifeFruit, ItemID.TreasureMap, ItemID.Shellphone, ItemID.ShellphoneDummy, ItemID.ShellphoneHell, ItemID.ShellphoneOcean, ItemID.ShellphoneSpawn, ItemID.MagicConch, ItemID.DemonConch };
 
                 // 初始化
+                Main.NewText("Load");
                 for (int id = 1; id < ItemID.Count; id++)
                 {
                     if (!ItemID.Sets.Deprecated[id])
@@ -147,6 +148,7 @@ namespace Terraria.Chat
                 }
 
                 // 排序
+                Main.NewText("Sort");
                 foreach (var category in categories)
                 {
                     foreach (var subCategory in category.Value)
@@ -227,6 +229,7 @@ namespace Terraria.Chat
                 }
 
                 // 写入
+                Main.NewText("Write");
                 var writer = new StreamWriter("categories.lua");
                 writer.WriteLine("categories = {");
                 foreach (var category in categories)
@@ -234,10 +237,11 @@ namespace Terraria.Chat
                     writer.WriteLine("\t" + category.Key + " = {");
                     foreach (var subCategory in category.Value)
                     {
-                        writer.WriteLine("\t\t" + subCategory + " = {" +
+                        writer.WriteLine("\t\t" + subCategory.Key + " = {" +
                             string.Join(", ", subCategory.Value.Select(i => i.type.ToString())) +
                             "}");
                     }
+                    writer.WriteLine("}");
                 }
                 writer.WriteLine("}");
                 writer.Close();
@@ -255,6 +259,23 @@ namespace Terraria.Chat
             {
                 this._defaultCommand.ProcessIncomingMessage(message.Text, (byte)clientId);
                 message.Consume();
+            }
+        }
+
+        private class DefaultDictionary<TKey, TValue> : Dictionary<TKey, TValue> where TValue : new()
+        {
+            public new TValue this[TKey key]
+            {
+                get
+                {
+                    if (!TryGetValue(key, out var val))
+                    {
+                        val = new TValue();
+                        Add(key, val);
+                    }
+                    return val;
+                }
+                set => base[key] = value;
             }
         }
     }
