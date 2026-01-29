@@ -19,13 +19,14 @@ namespace Terraria.Chat
             // ###################################################################################
             if (message.Text == "/start")
             {
-                string weapons = "Weapons 武器", tools = "Tools 工具", armor = "Armor 盔甲", accessories = "Accessories 饰品", placeables = "Placeables 放置物", consumables = "Consumables 消耗品", others = "Others 其他";
+                string weapons = "Weapons 武器", tools = "Tools 工具", armor = "Armor 盔甲", accessories = "Accessories 饰品", placeables = "Placeables 放置物", consumables = "Consumables 消耗品", boss = "Boss 老板", others = "Others 其他";
                 string melee = "Melee 近战", magic = "Magic 魔法", ranged = "Ranged 远程", summon = "Summon 召唤", whips = "Whips 鞭子", throwing = "Throwing 投掷", sentry = "Sentry 炮塔";
                 string pickaxes = "Pickaxes 镐子", axes = "Axes 斧头", hammers = "Hammers 锤子", drill = "Drill 钻头", chainsaw = "Chainsaw 链锯";
                 string head = "Head 头部", body = "Body 身体", legs = "Legs 腿部", vanity = "Vanity 时装";
                 string aaccessories = "Accessories 饰品", wings = "Wings 翅膀", hooks = "Hooks 钩爪", pets = "Pets 宠物", lightPets = "LightPets 照明宠物", mounts = "Mounts 坐骑", carts = "Carts 矿车";
-                string tiles = "Tiles 物块", walls = "Walls 墙壁", furniture = "Furniture 家具", fishingCrate = "FishingCrate 宝匣", relic = "Relic 圣物";
-                string ammo = "Ammo 弹药", potions = "Potions 药水", food = "Food 食物", bossSummons = "BossSummons Boss召唤物", bossBag = "BossBag 宝藏袋", bait = "Bait 鱼饵", questFish = "QuestFish 任务鱼", pickup = "Pickup 拾取物";
+                string tiles = "Tiles 物块", walls = "Walls 墙壁", furniture = "Furniture 家具";
+                string ammo = "Ammo 弹药", potions = "Potions 药水", food = "Food 食物", pickup = "Pickup 拾取物";
+                string bossSummons = "BossSummons 老板召唤物", bossBag = "BossBag 宝藏袋", bait = "Bait 鱼饵", questFish = "QuestFish 任务鱼", relic = "Relic 圣物", fishingCrate = "FishingCrate 宝匣";
                 string materials = "Materials 材料", kites = "Kites 风筝", poles = "Poles 鱼竿", paint = "Paint 油漆", dyes = "Dyes 染料", oothers = "Others 其它";
 
                 var categories = new DefaultDictionary<string, DefaultDictionary<string, List<Item>>>();
@@ -108,10 +109,6 @@ namespace Terraria.Chat
                         { categories[placeables][walls].Add(item); other = false; } // 墙壁
                         if (item.createTile != -1 && Main.tileFrameImportant[item.createTile])
                         { categories[placeables][furniture].Add(item); other = false; } // 家具
-                        if (ItemID.Sets.IsFishingCrate[item.type])
-                        { categories[placeables][fishingCrate].Add(item); other = false; } // 宝匣
-                        if (item.createTile != -1 && item.expert)
-                        { categories[placeables][relic].Add(item); other = false; } // 圣物
 
                         // 消耗品
                         if (item.ammo != 0)
@@ -120,24 +117,30 @@ namespace Terraria.Chat
                         { categories[consumables][potions].Add(item); other = false; } // 药水
                         if (ItemID.Sets.IsFood[item.type])
                         { categories[consumables][food].Add(item); other = false; } // 食物
-                        if (sortingPriorityBossSpawns[item.type] != -1 && !sortingPriorityBossSpawnsExclusions.Contains(item.type) || item.type == ItemID.PirateMap || item.type == ItemID.SnowGlobe || item.type == ItemID.DD2ElderCrystal)
-                        { categories[consumables][bossSummons].Add(item); other = false; } // Boss召唤物
-                        if (ItemID.Sets.BossBag[item.type] && item.expert)
-                        { categories[consumables][bossBag].Add(item); other = false; } // 宝藏袋
-                        if (item.bait > 0)
-                        { categories[consumables][bait].Add(item); other = false; } // 鱼饵
-                        if (item.questItem)
-                        { categories[consumables][questFish].Add(item); other = false; } // 任务鱼
                         if (ItemID.Sets.IsAPickup[item.type])
                         { categories[consumables][pickup].Add(item); other = false; } // 拾取物
+
+                        // 老板
+                        if (sortingPriorityBossSpawns[item.type] != -1 && !sortingPriorityBossSpawnsExclusions.Contains(item.type) || item.type == ItemID.PirateMap || item.type == ItemID.SnowGlobe || item.type == ItemID.DD2ElderCrystal)
+                        { categories[boss][bossSummons].Add(item); other = false; } // Boss召唤物
+                        if (ItemID.Sets.BossBag[item.type] && item.expert)
+                        { categories[boss][bossBag].Add(item); other = false; } // 宝藏袋
+                        if (item.createTile != -1 && item.rare == -13)
+                        { categories[boss][relic].Add(item); other = false; } // 圣物
+                        if (item.fishingPole > 0)
+                        { categories[boss][poles].Add(item); other = false; } // 鱼竿
+                        if (item.bait > 0)
+                        { categories[boss][bait].Add(item); other = false; } // 鱼饵
+                        if (item.questItem)
+                        { categories[boss][questFish].Add(item); other = false; } // 任务鱼
+                        if (ItemID.Sets.IsFishingCrate[item.type])
+                        { categories[boss][fishingCrate].Add(item); other = false; } // 宝匣
 
                         // 其它
                         if (item.material)
                         { categories[others][materials].Add(item); other = false; } // 材料
                         if (ItemID.Sets.IsAKite[item.type])
                         { categories[others][kites].Add(item); other = false; } // 风筝
-                        if (item.fishingPole > 0)
-                        { categories[others][poles].Add(item); other = false; } // 鱼竿
                         if (item.paint > 0 || ItemID.Sets.IsPaintScraper[item.type])
                         { categories[others][paint].Add(item); other = false; } // 油漆
                         if (item.dye != 0)
@@ -193,7 +196,6 @@ namespace Terraria.Chat
                         }
                         else if (category.Key == placeables)
                         {
-
                         }
                         else if (category.Key == consumables)
                         {
@@ -204,6 +206,13 @@ namespace Terraria.Chat
                             else if (subCategory.Key == food)
                             {
                                 subCategory.Value.Sort((x, y) => ItemID.Sets.IsFood[x.type].CompareTo(ItemID.Sets.IsFood[y.type]));
+                            }
+                        }
+                        else if (category.Key == boss)
+                        {
+                            if (subCategory.Key == poles)
+                            {
+                                subCategory.Value.Sort((x, y) => x.fishingPole.CompareTo(y.fishingPole));
                             }
                             else if (subCategory.Key == bossSummons)
                             {
@@ -220,10 +229,6 @@ namespace Terraria.Chat
                         }
                         else if (category.Key == others)
                         {
-                            if (subCategory.Key == poles)
-                            {
-                                subCategory.Value.Sort((x, y) => x.fishingPole.CompareTo(y.fishingPole));
-                            }
                         }
                     }
                 }
