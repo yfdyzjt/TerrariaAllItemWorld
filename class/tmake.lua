@@ -46,7 +46,7 @@ for n, class in ipairs(categories.Categories) do
         local i : int = 0
         local part : int = 0
         local layer : int = dir < 0 and leftLayer or rightLayer
-        local firstItem : bool = true
+        local firstItem : int = 0
 
         local chestOffset : int = dir < 0 and leftChestOffset or rightChestOffset
         local frameOffset : int = dir < 0 and leftFrameOffset or rightFrameOffset
@@ -79,38 +79,36 @@ for n, class in ipairs(categories.Categories) do
                 world.Tile[framePos.X + 1, framePos.Y + 1].WallColor = 13
             end
 
-            local chestPosX : int = originPosX + dir * (part * partStep + chestOffset)
-            local chestPosY : int = originPosY - layer * layerStep - 1
-            local chestPos = Point(chestPosX, chestPosY)
+            for c : int = 0, 1, 1 do
+                local chestPosX : int = originPosX + dir * (part * partStep + chestOffset) + c * 4
+                local chestPosY : int = originPosY - layer * layerStep - 1
+                local chestPos = Point(chestPosX, chestPosY)
 
-            if firstItem then 
-                Tool.PlaceChest(world, chestPos, chestData) 
-                firstItem = false 
+                if firstItem < 2 then 
+                    Tool.PlaceChest(world, chestPos, chestData) 
+                    firstItem = firstItem + 1
+                end
+
+                local chest = Tool.GetChest(world, chestPos);
+
+                chest.Item[i].StackSize = 9999
+                chest.Item[i + 10].StackSize = 9999
+                chest.Item[i + 20].StackSize = 9999
+                chest.Item[i + 30].StackSize = 9999
+                chest.Item[i].Type = id
+                chest.Item[i + 10].Type = id
+                chest.Item[i + 20].Type = id
+                chest.Item[i + 30].Type = id
+
+                chest.Name = sub.Name .. " " .. count
             end
-
-            local chest = Tool.GetChest(world, chestPos);
-
-            chest.Item[i].StackSize = 9999
-            chest.Item[i + 10].StackSize = 9999
-            chest.Item[i + 20].StackSize = 9999
-            chest.Item[i + 30].StackSize = 9999
-            chest.Item[i].Type = id
-            chest.Item[i + 10].Type = id
-            chest.Item[i + 20].Type = id
-            chest.Item[i + 30].Type = id
-
-            chest.Name = sub.Name .. " " .. count
-
-            local chestRect = Rectangle(cast(int, chestPos.X), cast(int, chestPos.Y), 2, 2)
-            local chestPos_2 = Point(chestPos.X + 4, chestPos.Y)
-            Tool.Copy(world, chestRect, chestPos_2)
 
             i = i + 1
             if i >= 10 then
                 i = 0
                 part = part + 1
                 count = count + 1
-                firstItem = true
+                firstItem = 0
                 if part >= partCount then
                     part = 0
                     layer = layer + 1
@@ -133,21 +131,21 @@ for n, class in ipairs(categories.Categories) do
 end
 
 world.GameMode = 3
-world.Name = "All Item World (journey)"
+world.Name = "橙子的全物品 All Item World (journey)"
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName)
 
 world.GameMode = 0
-world.Name = "All Item World (classic)"
+world.Name = "橙子的全物品 All Item World (classic)"
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName .. "_classic")
 
 world.GameMode = 1
-world.Name = "All Item World (expert)"
+world.Name = "橙子的全物品 All Item World (expert)"
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName .. "_expert")
 
 world.GameMode = 2
-world.Name = "All Item World (master)"
+world.Name = "橙子的全物品 All Item World (master)"
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName .. "_master")
