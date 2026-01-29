@@ -5,10 +5,10 @@ Include(self, "categories")
 
 local oldMaxId = 5455
 
-local startPosX = 1416
-local startPosY = 1671
+local startPosX = 2313
+local startPosY = 1699
 
-local classStep : int = 786
+local classStep : int = 539
 local layerStep : int = 9
 local partStep : int = 14
 local partCount : int = 12

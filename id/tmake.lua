@@ -2,8 +2,8 @@ const Point typeof System.Drawing.Point
 
 local maxId = 6145
 
-local startChestPos = Point(4291, 1314)
-local startFramePos = Point(4291, 1288)
+local startChestPos = Point(4741, 1315)
+local startFramePos = Point(4741, 1289)
 
 local partStep = Point(45, -45)
 local partCount = Point(8, 9)
@@ -95,23 +95,23 @@ for partY : int = minChestY, maxChestY, stepChestY  do
         print(startId .. " ~ " .. chestId - 1)
     end
 end
-    
+
 world.GameMode = 3
-world.Name = "All Item World (journey)"
+world.Name = "橙子的全物品 All Item World (journey)"
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName)
 
 world.GameMode = 0
-world.Name = "All Item World (classic)"
+world.Name = "橙子的全物品 All Item World (classic)"
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName .. "_classic")
 
 world.GameMode = 1
-world.Name = "All Item World (expert)"
+world.Name = "橙子的全物品 All Item World (expert)"
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName .. "_expert")
 
 world.GameMode = 2
-world.Name = "All Item World (master)"
+world.Name = "橙子的全物品 All Item World (master)"
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName .. "_master")
