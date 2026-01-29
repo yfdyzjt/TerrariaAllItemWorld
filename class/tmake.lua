@@ -1,101 +1,137 @@
 const Point typeof System.Drawing.Point
+const Rectangle typeof System.Drawing.Rectangle
 
-local maxId = 6145
+Include(self, "categories")
 
-local startChestPos = Point(4291, 1314)
-local startFramePos = Point(4291, 1288)
+local oldMaxId = 5455
 
-local partStep = Point(45, -45)
-local partCount = Point(8, 9)
+local startPosX = 1416
+local startPosY = 1671
+
+local classStep : int = 786
+local layerStep : int = 9
+local partStep : int = 14
+local partCount : int = 12
+
+local leftChestOffset : int = 58
+local leftFrameOffset : int = 52
+local leftSignOffset : int = 44
+local rightChestOffset : int = 53
+local rightFrameOffset : int = 51
+local rightSignOffset : int = 43
 
 local worldName = "all_item_world"
 local world = LoadWorld(worldName)
 print("Load world: " .. world.Name)
 
-local frameId : int = 1
-local chestId : int = 1
+local signData = FrameProperty.GetFrameData(55, 4)
+local frameData = FrameProperty.GetFrameData(395)
+local chestData = FrameProperty.GetFrameData(21, 47)
 
-print("Item frame items:")
-local minFrameX : int = startFramePos.X
-local maxFrameX : int = startFramePos.X + partStep.X * (partCount.X - 1)
-local stepFrameX : int = partStep.X
-local minFrameY : int = startFramePos.Y
-local maxFrameY : int = startFramePos.Y + partStep.Y * (partCount.Y - 1)
-local stepFrameY : int = partStep.Y
+local dir : int = 1
 
-for partY : int = minFrameY, maxFrameY, stepFrameY  do
-    for partX : int = minFrameX, maxFrameX, stepFrameX do
-        if frameId > maxId then break end
+for n, class in ipairs(categories.Categories) do
+    print(class.Name)
 
-        local startId = frameId
+    local leftLayer : int = 0
+    local rightLayer : int = 0
 
-        for offsetY : int = 0, 18, 2 do
-            for offsetX : int = 0, 18, 2 do
-                if frameId > maxId then break end
+    local originPosX : int = startPosX + (n - 1) * classStep
+    local originPosY : int = startPosY
 
-                local x : int = partX + offsetX
-                local y : int = partY + offsetY
+    for _, sub in ipairs(class.Subs) do
+        print("    " .. sub.Name)
 
-                local pos = Point(x, y)
+        local count : int = 1
+        local i : int = 0
+        local part : int = 0
+        local layer : int = dir < 0 and leftLayer or rightLayer
+        local firstItem : bool = true
 
-                local frame = Tool.GetTileEntity(world, pos)
+        local chestOffset : int = dir < 0 and leftChestOffset or rightChestOffset
+        local frameOffset : int = dir < 0 and leftFrameOffset or rightFrameOffset
+        local signOffset : int = dir < 0 and leftSignOffset or rightSignOffset
 
-                frame.Item.Type = frameId
-                frame.Item.StackSize = 1
+        local signPosX : int = originPosX + dir * signOffset
+        local signPosY : int = originPosY - layer * layerStep - 4
+        local signPos = Point(signPosX, signPosY)
+        local sign = Tool.PlaceSign(world, signPos, signData)
+        sign.Text = sub.Name
 
-                frameId = frameId + 1
+        for _, id in ipairs(sub.Items) do
+            local framePosX : int = originPosX + dir * (part * partStep + frameOffset + i % 5 * 2)
+            local framePosY : int = originPosY - layer * layerStep - 6 + math.floor(i / 5) * 2
+            local framePos = Point(framePosX, framePosY)
+            local frame = Tool.PlaceTileEntity(world, framePos, frameData)
+
+            frame.Item.Type = id
+            frame.Item.StackSize = 1
+
+            world.Tile[framePos.X, framePos.Y].InvisibleBlock = true
+            world.Tile[framePos.X, framePos.Y + 1].InvisibleBlock = true
+            world.Tile[framePos.X + 1, framePos.Y].InvisibleBlock = true
+            world.Tile[framePos.X + 1, framePos.Y + 1].InvisibleBlock = true
+
+            if id > oldMaxId then
+                world.Tile[framePos.X, framePos.Y].WallColor = 13
+                world.Tile[framePos.X, framePos.Y + 1].WallColor = 13
+                world.Tile[framePos.X + 1, framePos.Y].WallColor = 13
+                world.Tile[framePos.X + 1, framePos.Y + 1].WallColor = 13
             end
-        end
 
-        print(startId .. " ~ " .. frameId - 1)
-    end
-end
+            local chestPosX : int = originPosX + dir * (part * partStep + chestOffset)
+            local chestPosY : int = originPosY - layer * layerStep - 1
+            local chestPos = Point(chestPosX, chestPosY)
 
-print("Chest items:")
-local minChestX : int = startChestPos.X
-local maxChestX : int = startChestPos.X + partStep.X * (partCount.X - 1)
-local stepChestX : int = partStep.X
-local minChestY : int = startChestPos.Y
-local maxChestY : int = startChestPos.Y + partStep.Y * (partCount.Y - 1)
-local stepChestY : int = partStep.Y
+            if firstItem then 
+                Tool.PlaceChest(world, chestPos, chestData) 
+                firstItem = false 
+            end
 
-for partY : int = minChestY, maxChestY, stepChestY  do
-    for partX : int = minChestX, maxChestX, stepChestX do
-        if chestId > maxId then break end
+            local chest = Tool.GetChest(world, chestPos);
 
-        local startId = chestId
+            chest.Item[i].StackSize = 9999
+            chest.Item[i + 10].StackSize = 9999
+            chest.Item[i + 20].StackSize = 9999
+            chest.Item[i + 30].StackSize = 9999
+            chest.Item[i].Type = id
+            chest.Item[i + 10].Type = id
+            chest.Item[i + 20].Type = id
+            chest.Item[i + 30].Type = id
 
-        for offsetY : int = 0, 6, 3 do
-            chestId = startId
+            chest.Name = sub.Name .. " " .. count
 
-            for offsetX : int = 0, 4, 2 do
-                if chestId > maxId then break end
+            local chestRect = Rectangle(cast(int, chestPos.X), cast(int, chestPos.Y), 2, 2)
+            local chestPos_2 = Point(chestPos.X + 4, chestPos.Y)
+            Tool.Copy(world, chestRect, chestPos_2)
 
-                local x : int = partX + offsetX
-                local y : int = partY + offsetY
-
-                local pos = Point(x, y)
-                local chest = Tool.GetChest(world, pos)
-
-                local beginId = chestId
-
-                for i = 0, ChestProperty.MaxItems - 1, 1 do
-                    if chestId > maxId or chestId - startId >= 100 then break end
-                        
-                    chest.Item[i].StackSize = 9999
-                    chest.Item[i].Type = chestId
-
-                    chestId = chestId + 1
+            i = i + 1
+            if i >= 10 then
+                i = 0
+                part = part + 1
+                count = count + 1
+                firstItem = true
+                if part >= partCount then
+                    part = 0
+                    layer = layer + 1
                 end
-
-                chest.Name = beginId .. " ~ " .. chestId - 1
             end
         end
 
-        print(startId .. " ~ " .. chestId - 1)
+        if dir < 0 then
+            leftLayer = layer + 1
+        else
+            rightLayer = layer + 1
+        end
+
+        if leftLayer < rightLayer then
+            dir = -1
+        else
+            dir = 1
+        end
     end
 end
-    
+
 world.GameMode = 3
 world.Name = "All Item World (journey)"
 print("Save world: " .. world.Name)

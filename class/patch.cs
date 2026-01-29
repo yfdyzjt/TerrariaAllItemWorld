@@ -19,14 +19,14 @@ namespace Terraria.Chat
             // ###################################################################################
             if (message.Text == "/start")
             {
-                string weapons = "Weapons", tools = "Tools", armor = "Armor", accessories = "Accessories", placeables = "Placeables", consumables = "Consumables", others = "Others";
-                string melee = "Melee", magic = "Magic", ranged = "Ranged", summon = "Summon", whips = "Whips", throwing = "Throwing", sentry = "Sentry";
-                string pickaxes = "Pickaxes", axes = "Axes", hammers = "Hammers", drill = "Drill", chainsaw = "Chainsaw";
-                string head = "Head", body = "Body", legs = "Legs", vanity = "Vanity";
-                string aaccessories = "Accessories", wings = "Wings", hooks = "Hooks", pets = "Pets", lightPets = "LightPets", mounts = "Mounts", carts = "Carts";
-                string tiles = "Tiles", walls = "Walls", furniture = "Furniture", fishingCrate = "FishingCrate", relic = "Relic";
-                string ammo = "Ammo", potions = "Potins", food = "Food", bossSummons = "BossSummons", bossBag = "BossBag", bait = "Bait", questFish = "QuestFish", pickup = "Pickup";
-                string materials = "Materials", kites = "Kites", poles = "Poles", paint = "Paint", dyes = "Dyes", oothers = "Others";
+                string weapons = "Weapons 武器", tools = "Tools 工具", armor = "Armor 盔甲", accessories = "Accessories 饰品", placeables = "Placeables 放置物", consumables = "Consumables 消耗品", others = "Others 其他";
+                string melee = "Melee 近战", magic = "Magic 魔法", ranged = "Ranged 远程", summon = "Summon 召唤", whips = "Whips 鞭子", throwing = "Throwing 投掷", sentry = "Sentry 炮塔";
+                string pickaxes = "Pickaxes 镐子", axes = "Axes 斧头", hammers = "Hammers 锤子", drill = "Drill 钻头", chainsaw = "Chainsaw 链锯";
+                string head = "Head 头部", body = "Body 身体", legs = "Legs 腿部", vanity = "Vanity 时装";
+                string aaccessories = "Accessories 饰品", wings = "Wings 翅膀", hooks = "Hooks 钩爪", pets = "Pets 宠物", lightPets = "LightPets 照明宠物", mounts = "Mounts 坐骑", carts = "Carts 矿车";
+                string tiles = "Tiles 物块", walls = "Walls 墙壁", furniture = "Furniture 家具", fishingCrate = "FishingCrate 宝匣", relic = "Relic 圣物";
+                string ammo = "Ammo 弹药", potions = "Potions 药水", food = "Food 食物", bossSummons = "BossSummons Boss召唤物", bossBag = "BossBag 宝藏袋", bait = "Bait 鱼饵", questFish = "QuestFish 任务鱼", pickup = "Pickup 拾取物";
+                string materials = "Materials 材料", kites = "Kites 风筝", poles = "Poles 鱼竿", paint = "Paint 油漆", dyes = "Dyes 染料", oothers = "Others 其它";
 
                 var categories = new DefaultDictionary<string, DefaultDictionary<string, List<Item>>>();
 
@@ -231,17 +231,23 @@ namespace Terraria.Chat
                 // 写入
                 Main.NewText("Write");
                 var writer = new StreamWriter("categories.lua");
-                writer.WriteLine("categories = {");
+                writer.WriteLine("Categories = {");
                 foreach (var category in categories)
                 {
-                    writer.WriteLine("\t" + category.Key + " = {");
-                    foreach (var subCategory in category.Value)
+                    writer.WriteLine("\t{");
+                    writer.WriteLine("\t\tName = \"" + category.Key + "\",");
+                    writer.WriteLine("\t\tSubs = {");
+
+                    var subCategories = category.Value.ToList().OrderByDescending(s => s.Value.Count);
+                    foreach (var subCategory in subCategories)
                     {
-                        writer.WriteLine("\t\t" + subCategory.Key + " = {" +
-                            string.Join(", ", subCategory.Value.Select(i => i.type.ToString())) +
-                            "}");
+                        writer.WriteLine("\t\t\t{");
+                        writer.WriteLine("\t\t\t\tName = \"" + subCategory.Key + "\",");
+                        writer.WriteLine("\t\t\t\tItems = {" + string.Join(", ", subCategory.Value.Select(i => i.type.ToString())) + "},");
+                        writer.WriteLine("\t\t\t},");
                     }
-                    writer.WriteLine("}");
+                    writer.WriteLine("\t\t},");
+                    writer.WriteLine("\t},");
                 }
                 writer.WriteLine("}");
                 writer.Close();
