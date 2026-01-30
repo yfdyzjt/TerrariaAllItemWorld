@@ -48,7 +48,7 @@ namespace Terraria.Chat
                         item.SetDefaults(id);
                         bool other = true;
 
-                        bool isTool = item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.fishingPole > 0 || item.tileWand != -1 || _itemIdsThatAreAccepted.Contains(item.type) || item.type == ItemID.GravediggerShovel || item.type == 4409;
+                        bool isTool = item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.fishingPole > 0 || item.tileWand != -1 || _itemIdsThatAreAccepted.Contains(item.type);
                         bool summonMeleeSpeed = isWhip[item.type];
 
                         // 武器
@@ -80,7 +80,7 @@ namespace Terraria.Chat
                         { categories[tools][chainsaw].Add(item); other = false; } // 链锯
                         if (item.fishingPole > 0)
                         { categories[tools][poles].Add(item); other = false; } // 鱼竿
-                        if (isTool && !(item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.fishingPole > 0))
+                        if (isTool && (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.fishingPole > 0))
                         { categories[tools][tother].Add(item); other = false; } // 其他
 
                         // 盔甲

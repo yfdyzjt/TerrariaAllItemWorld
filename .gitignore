@@ -2,5 +2,4 @@
 
 *.exe
 
-id/*.wld
-class/*.wld
+final/*.wld
