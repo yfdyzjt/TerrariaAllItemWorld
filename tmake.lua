@@ -1,4 +1,4 @@
-local version = "v2.1.0"
+local version = "v3.0.0"
 
 local worldName = "all_item_world"
 local world = LoadWorld("world/" .. worldName)
