@@ -13,10 +13,10 @@ All-Mode All-Item World, containing every item including v1.4.5 additions:
 [b]Other Modes:[/b]
 
 [list]
-[*][u][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3654986030]Journeymode world[/url][/u]
-[*][u][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3654990218]Classicmode world[/url][/u]
-[*][u][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3655019065]Expertmode world[/url][/u]
-[*][u][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3655020719]Mastermode world[/url][/u]
+[*][u][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3654986030]Journey mode world[/url][/u]
+[*][u][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3654990218]Classic mode world[/url][/u]
+[*][u][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3655019065]Expert mode world[/url][/u]
+[*][u][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3655020719]Master mode world[/url][/u]
 [/list]
 
 [b]Project URL:[/b]
