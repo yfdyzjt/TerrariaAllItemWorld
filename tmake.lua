@@ -9,7 +9,7 @@ Include(self, "id/id").Id(world)
 print("Start class:")
 Include(self, "class/class").Class(world)
 print("Start bestiary:")
--- Include(self, "bestiary/bestiary").Bestiary(world)
+Include(self, "bestiary/bestiary").Bestiary(world)
 
 world.GameMode = 3
 world.Name = "橙子的全物品 All Item World " .. version

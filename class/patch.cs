@@ -287,7 +287,6 @@ namespace Terraria.Chat
             }
         }
 
-
         private class DefaultDictionary<TKey, TValue> : Dictionary<TKey, TValue> where TValue : new()
         {
             public new TValue this[TKey key]
