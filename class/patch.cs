@@ -27,7 +27,7 @@ namespace Terraria.Chat
                 string tiles = "Tiles 物块", walls = "Walls 墙壁", furniture = "Furniture 家具", pother = "Other 其他";
                 string ammo = "Ammo 弹药", potions = "Potions 药水", food = "Food 食物", pickup = "Pickup 拾取物", cother = "Other 其他", environment = "Environment";
                 string bossSummons = "BossSummons 首领召唤物", bossBag = "BossBag 宝藏袋", bait = "Bait 鱼饵", questFish = "QuestFish 任务鱼", relic = "Relic 圣物", fishingCrate = "FishingCrate 宝匣", poles = "Poles 鱼竿";
-                string materials = "Materials 材料", kites = "Kites 风筝", paint = "Paint 油漆", paintTool = "PaintTool 油漆工具", dyes = "Dyes 染料", oothers = "Others 其它", gameplay = "Gameplay 娱乐";
+                string materials = "Materials 材料", kites = "Kites 风筝", paint = "Paint 油漆", paintTool = "PaintTool 油漆工具", dyes = "Dyes 染料", oothers = "Games 娱乐", gameplay = "Others 其它";
 
                 var orderList = new List<string>() { bossAndFish, accessories, armor, weapons, tools, placeables, consumables, others };
 
@@ -54,7 +54,7 @@ namespace Terraria.Chat
                         bool isPotions = (item.UseSound == SoundID.Item3 && !ItemID.Sets.IsFood[item.type]) || item.type == ItemID.Mushroom || item.type == ItemID.LovePotion || item.type == ItemID.GenderChangePotion || item.type == ItemID.WormholePotion || item.type == ItemID.RecallPotion || item.type == ItemID.StinkPotion || item.type == ItemID.TeleportationPotion || item.type == ItemID.PotionOfReturn || item.type == ItemID.HerbBag;
                         bool isBossSummons = (sortingPriorityBossSpawns[item.type] != -1 && !sortingPriorityBossSpawnsExclusions.Contains(item.type)) || item.type == ItemID.PirateMap || item.type == ItemID.SnowGlobe || item.type == ItemID.DD2ElderCrystal || item.type == ItemID.GuideVoodooDoll || item.type == ItemID.ClothierVoodooDoll || item.type == ItemID.NightKey || item.type == ItemID.LightKey;
                         bool isTool = item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.fishingPole > 0 || item.tileWand != -1 || _itemIdsThatAreAccepted.Contains(item.type) || item.type == ItemID.GravediggerShovel || item.type == ItemID.SpectreGoggles || item.type == ItemID.ClosedVoidBag || item.type == ItemID.VoidLens || item.type == ItemID.MoneyTrough || item.type == ItemID.ChesterPetItem || item.type == ItemID.DontHurtCrittersBook || item.type == ItemID.DontHurtNatureBook || item.type == ItemID.DontHurtComboBook || item.type == ItemID.UncumberingStone || item.type == ItemID.EncumberingStone || item.type == ItemID.DirtRod;
-                        bool isPaintScraper = ItemID.Sets.IsPaintScraper[item.type] || item.type == ItemID.PaintRoller || item.type == ItemID.SpectrePaintbrush || item.type == ItemID.SpectrePaintScraper || item.type == ItemID.SpectrePaintRoller;
+                        bool isPaintScraper = item.type == ItemID.PaintSprayer || item.type == ItemID.PaintScraper || item.type == ItemID.Paintbrush || item.type == ItemID.PaintRoller || item.type == ItemID.SpectrePaintbrush || item.type == ItemID.SpectrePaintScraper || item.type == ItemID.SpectrePaintRoller;
 
                         // 武器
                         if (item.melee && !isTool)
