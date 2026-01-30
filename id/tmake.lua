@@ -10,6 +10,8 @@ local startFramePos = Point(4741, 1289)
 local partStep = Point(45, -45)
 local partCount = Point(8, 9)
 
+local illegalIds = {58, 184, 1734, 1735, 1867, 1868, 3453, 3454, 3455, 4143};
+
 local worldName = "all_item_world"
 local world = LoadWorld(worldName)
 print("Load world: " .. world.Name)
@@ -42,8 +44,22 @@ for partY : int = minFrameY, maxFrameY, stepFrameY  do
 
                 local frame = Tool.GetTileEntity(world, pos)
 
-                frame.Item.Type = frameId
-                frame.Item.StackSize = 1
+                local isIllegal = false
+                for _, illegalId : int in ipairs(illegalIds) do
+                    if illegalId == frameId then
+                        print("illegalIds: " .. frameId)
+                        isIllegal = true
+                        break
+                    end
+                end
+
+                if ~isIllegal then
+                    frame.Item.Type = frameId
+                    frame.Item.StackSize = 1
+                else
+                    frame.Item.Type = 0
+                    frame.Item.StackSize = 0
+                end
 
                 frameId = frameId + 1
             end
@@ -83,9 +99,22 @@ for partY : int = minChestY, maxChestY, stepChestY  do
 
                 for i = 0, ChestProperty.MaxItems - 1, 1 do
                     if chestId > maxId or chestId - startId >= 100 then break end
-                        
-                    chest.Item[i].StackSize = 9999
-                    chest.Item[i].Type = chestId
+                    
+                    local isIllegal = false
+                    for _, illegalId : int in ipairs(illegalIds) do
+                        if illegalId == chestId then
+                            isIllegal = true
+                            break
+                        end
+                    end
+
+                    if ~isIllegal then
+                        chest.Item[i].StackSize = 9999
+                        chest.Item[i].Type = chestId
+                    else
+                        chest.Item[i].StackSize = 0
+                        chest.Item[i].Type = 0
+                    end
 
                     chestId = chestId + 1
                 end

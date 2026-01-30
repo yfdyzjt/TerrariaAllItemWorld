@@ -19,23 +19,25 @@ namespace Terraria.Chat
             // ###################################################################################
             if (message.Text == "/start")
             {
-                string weapons = "Weapons 武器", tools = "Tools 工具", armor = "Armor 盔甲", accessories = "Accessories 饰品", placeables = "Placeables 放置物", consumables = "Consumables 消耗品", boss = "Boss 老板", others = "Others 其他";
+                string weapons = "Weapons 武器", tools = "Tools 工具", armor = "Armor 盔甲", accessories = "Accessories 饰品", placeables = "Placeables 放置物", consumables = "Consumables 消耗品", bossAndFish = "BossAndFish 首领和钓鱼", others = "Others 其他";
                 string melee = "Melee 近战", magic = "Magic 魔法", ranged = "Ranged 远程", summon = "Summon 召唤", whips = "Whips 鞭子", throwing = "Throwing 投掷", sentry = "Sentry 炮塔";
-                string pickaxes = "Pickaxes 镐子", axes = "Axes 斧头", hammers = "Hammers 锤子", drill = "Drill 钻头", chainsaw = "Chainsaw 链锯";
+                string pickaxes = "Pickaxes 镐子", axes = "Axes 斧头", hammers = "Hammers 锤子", drill = "Drill 钻头", chainsaw = "Chainsaw 链锯", tother = "Other 其他";
                 string head = "Head 头部", body = "Body 身体", legs = "Legs 腿部", vanity = "Vanity 时装";
                 string aaccessories = "Accessories 饰品", wings = "Wings 翅膀", hooks = "Hooks 钩爪", pets = "Pets 宠物", lightPets = "LightPets 照明宠物", mounts = "Mounts 坐骑", carts = "Carts 矿车";
                 string tiles = "Tiles 物块", walls = "Walls 墙壁", furniture = "Furniture 家具";
                 string ammo = "Ammo 弹药", potions = "Potions 药水", food = "Food 食物", pickup = "Pickup 拾取物";
-                string bossSummons = "BossSummons 老板召唤物", bossBag = "BossBag 宝藏袋", bait = "Bait 鱼饵", questFish = "QuestFish 任务鱼", relic = "Relic 圣物", fishingCrate = "FishingCrate 宝匣";
-                string materials = "Materials 材料", kites = "Kites 风筝", poles = "Poles 鱼竿", paint = "Paint 油漆", dyes = "Dyes 染料", oothers = "Others 其它";
+                string bossSummons = "BossSummons 首领召唤物", bossBag = "BossBag 宝藏袋", bait = "Bait 鱼饵", questFish = "QuestFish 任务鱼", relic = "Relic 圣物", fishingCrate = "FishingCrate 宝匣", poles = "Poles 鱼竿";
+                string materials = "Materials 材料", kites = "Kites 风筝", paint = "Paint 油漆", dyes = "Dyes 染料", oothers = "Others 其它";
 
-                var orderList = new List<string>() { boss, accessories, armor, weapons, tools, placeables, consumables, others };
+                var orderList = new List<string>() { bossAndFish, accessories, armor, weapons, tools, placeables, consumables, others };
 
                 var categories = new DefaultDictionary<string, DefaultDictionary<string, List<Item>>>();
 
-                bool[] spears = ItemID.Sets.Factory.CreateBoolSet(ItemID.Spear, ItemID.Trident, ItemID.Swordfish, ItemID.ThunderSpear, ItemID.TheRottedFork, ItemID.DarkLance, ItemID.CobaltNaginata, ItemID.PalladiumPike, ItemID.MythrilHalberd, ItemID.OrichalcumHalberd, ItemID.AdamantiteGlaive, ItemID.TitaniumTrident, ItemID.ObsidianSwordfish, ItemID.Gungnir, ItemID.MushroomSpear, ItemID.MonkStaffT1, ItemID.MonkStaffT2, ItemID.MonkStaffT3, ItemID.ChlorophytePartisan, ItemID.NorthPole);
-                int[] sortingPriorityBossSpawns = ItemID.Sets.Factory.CreateIntSet(-1, 43, 1, 560, 2, 70, 3, 1331, 3, 361, 4, 5120, 5, 1133, 5, 4988, 6, 5334, 7, 544, 8, 556, 9, 557, 10, ItemID.PirateMap, 11, 2673, 12, 602, 13, 1844, 14, 1958, 15, 1293, 16, 2767, 17, 4271, 18, 3601, 19, 1291, 20, 109, 21, 29, 22, 50, 23, 3199, 24, 3124, 25, 5437, 26, 5358, 27, 5359, 28, 5360, 29, 5361, 30, 4263, 31, 4819, 32);
-                List<int> sortingPriorityBossSpawnsExclusions = new List<int> { ItemID.LifeCrystal, ItemID.ManaCrystal, ItemID.CellPhone, ItemID.IceMirror, ItemID.MagicMirror, ItemID.LifeFruit, ItemID.TreasureMap, ItemID.Shellphone, ItemID.ShellphoneDummy, ItemID.ShellphoneHell, ItemID.ShellphoneOcean, ItemID.ShellphoneSpawn, ItemID.MagicConch, ItemID.DemonConch };
+                var isSpear = ItemID.Sets.Factory.CreateBoolSet(ItemID.Spear, ItemID.Trident, ItemID.Swordfish, ItemID.ThunderSpear, ItemID.TheRottedFork, ItemID.DarkLance, ItemID.CobaltNaginata, ItemID.PalladiumPike, ItemID.MythrilHalberd, ItemID.OrichalcumHalberd, ItemID.AdamantiteGlaive, ItemID.TitaniumTrident, ItemID.ObsidianSwordfish, ItemID.Gungnir, ItemID.MushroomSpear, ItemID.MonkStaffT1, ItemID.MonkStaffT2, ItemID.MonkStaffT3, ItemID.ChlorophytePartisan, ItemID.NorthPole);
+                var isWhip = ItemID.Sets.Factory.CreateBoolSet(4672, 4678, 4679, 4680, 4911, 4912, 4913, 4914, 5074, 5473, 5474, 5475, 5476, 5477, 5478, 5479, 5480, 5688);
+                var _itemIdsThatAreAccepted = new HashSet<int> { 213, 5295, 509, 850, 851, 3612, 3625, 3611, 510, 849, 3620, 1071, 1543, 1072, 1544, 1100, 1545, 50, 3199, 3124, 5358, 5359, 5360, 5361, 5437, 1326, 5335, 3384, 4263, 4819, 4262, 946, 4707, 205, 206, 207, 1128, 3031, 4820, 5302, 5364, 4460, 4608, 4872, 3032, 5303, 5304, 1991, 4821, 3183, 779, 5134, 1299, 4711, 4049, 114, 5667 };
+                var sortingPriorityBossSpawns = ItemID.Sets.Factory.CreateIntSet(-1, 43, 1, 560, 2, 70, 3, 1331, 3, 361, 4, 5120, 5, 1133, 5, 4988, 6, 5334, 7, 544, 8, 556, 9, 557, 10, ItemID.PirateMap, 11, 2673, 12, 602, 13, 1844, 14, 1958, 15, 1293, 16, 2767, 17, 4271, 18, 3601, 19, 1291, 20, 109, 21, 29, 22, 50, 23, 3199, 24, 3124, 25, 5437, 26, 5358, 27, 5359, 28, 5360, 29, 5361, 30, 4263, 31, 4819, 32);
+                var sortingPriorityBossSpawnsExclusions = new List<int> { ItemID.LifeCrystal, ItemID.ManaCrystal, ItemID.CellPhone, ItemID.IceMirror, ItemID.MagicMirror, ItemID.LifeFruit, ItemID.TreasureMap, ItemID.Shellphone, ItemID.ShellphoneDummy, ItemID.ShellphoneHell, ItemID.ShellphoneOcean, ItemID.ShellphoneSpawn, ItemID.MagicConch, ItemID.DemonConch };
 
                 // 初始化
                 for (int id = 1; id < ItemID.Count; id++)
@@ -46,8 +48,8 @@ namespace Terraria.Chat
                         item.SetDefaults(id);
                         bool other = true;
 
-                        bool isTool = item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.type == ItemID.GravediggerShovel;
-                        bool meleeNoSpeed = item.noMelee && (item.melee && (item.shoot > 0 && !spears[item.type] && !item.shootsEveryUse || isTool));
+                        bool isTool = item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.fishingPole > 0 || item.tileWand != -1 || _itemIdsThatAreAccepted.Contains(item.type);
+                        bool summonMeleeSpeed = isWhip[item.type];
 
                         // 武器
                         if (item.melee && !isTool)
@@ -56,9 +58,9 @@ namespace Terraria.Chat
                         { categories[weapons][magic].Add(item); other = false; } // 魔法
                         if (item.ranged && item.ammo == 0)
                         { categories[weapons][ranged].Add(item); other = false; } // 远程
-                        if (item.summon && !meleeNoSpeed && !item.sentry)
+                        if (item.summon && !summonMeleeSpeed && !item.sentry)
                         { categories[weapons][summon].Add(item); other = false; } // 召唤
-                        if (meleeNoSpeed && !item.sentry)
+                        if (summonMeleeSpeed && !item.sentry)
                         { categories[weapons][whips].Add(item); other = false; } // 鞭子
                         if (item.noMelee && item.ranged && item.consumable)
                         { categories[weapons][throwing].Add(item); other = false; } // 投掷 
@@ -76,6 +78,10 @@ namespace Terraria.Chat
                         { categories[tools][drill].Add(item); other = false; } // 钻头
                         if (ItemID.Sets.IsChainsaw[item.type])
                         { categories[tools][chainsaw].Add(item); other = false; } // 链锯
+                        if (item.fishingPole > 0)
+                        { categories[tools][poles].Add(item); other = false; } // 鱼竿
+                        if (isTool && (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.fishingPole > 0))
+                        { categories[tools][tother].Add(item); other = false; } // 其他
 
                         // 盔甲
                         if (item.headSlot != -1 && !item.vanity)
@@ -119,23 +125,23 @@ namespace Terraria.Chat
                         if (ItemID.Sets.IsFood[item.type])
                         { categories[consumables][food].Add(item); other = false; } // 食物
                         if (ItemID.Sets.IsAPickup[item.type])
-                        { categories[consumables][pickup].Add(item); other = false; } // 拾取物
+                        { /*categories[consumables][pickup].Add(item);*/ other = false; } // 拾取物
 
-                        // 老板
+                        // 首领
                         if (sortingPriorityBossSpawns[item.type] != -1 && !sortingPriorityBossSpawnsExclusions.Contains(item.type) || item.type == ItemID.PirateMap || item.type == ItemID.SnowGlobe || item.type == ItemID.DD2ElderCrystal)
-                        { categories[boss][bossSummons].Add(item); other = false; } // Boss召唤物
+                        { categories[bossAndFish][bossSummons].Add(item); other = false; } // Boss召唤物
                         if (ItemID.Sets.BossBag[item.type] && item.expert)
-                        { categories[boss][bossBag].Add(item); other = false; } // 宝藏袋
+                        { categories[bossAndFish][bossBag].Add(item); other = false; } // 宝藏袋
                         if (item.createTile != -1 && item.rare == -13)
-                        { categories[boss][relic].Add(item); other = false; } // 圣物
+                        { categories[bossAndFish][relic].Add(item); other = false; } // 圣物
                         if (item.fishingPole > 0)
-                        { categories[boss][poles].Add(item); other = false; } // 鱼竿
+                        { categories[bossAndFish][poles].Add(item); other = false; } // 鱼竿
                         if (item.bait > 0)
-                        { categories[boss][bait].Add(item); other = false; } // 鱼饵
+                        { categories[bossAndFish][bait].Add(item); other = false; } // 鱼饵
                         if (item.questItem)
-                        { categories[boss][questFish].Add(item); other = false; } // 任务鱼
+                        { categories[bossAndFish][questFish].Add(item); other = false; } // 任务鱼
                         if (ItemID.Sets.IsFishingCrate[item.type])
-                        { categories[boss][fishingCrate].Add(item); other = false; } // 宝匣
+                        { categories[bossAndFish][fishingCrate].Add(item); other = false; } // 宝匣
 
                         // 其它
                         if (item.material)
@@ -182,6 +188,10 @@ namespace Terraria.Chat
                             {
                                 subCategory.Value.Sort((x, y) => x.axe.CompareTo(y.axe));
                             }
+                            else if (subCategory.Key == poles)
+                            {
+                                subCategory.Value.Sort((x, y) => x.fishingPole.CompareTo(y.fishingPole));
+                            }
                         }
                         else if (category.Key == armor)
                         {
@@ -208,7 +218,7 @@ namespace Terraria.Chat
                                 subCategory.Value.Sort((x, y) => ItemID.Sets.IsFood[x.type].CompareTo(ItemID.Sets.IsFood[y.type]));
                             }
                         }
-                        else if (category.Key == boss)
+                        else if (category.Key == bossAndFish)
                         {
                             if (subCategory.Key == poles)
                             {
@@ -241,10 +251,10 @@ namespace Terraria.Chat
                     var category = categories[categoryName];
 
                     writer.WriteLine("\t{");
-                    writer.WriteLine("\t\tName = \"" + category.Key + "\",");
+                    writer.WriteLine("\t\tName = \"" + categoryName + "\",");
                     writer.WriteLine("\t\tSubs = {");
 
-                    var subCategories = category.Value.ToList().OrderByDescending(s => s.Value.Count);
+                    var subCategories = category.ToList().OrderByDescending(s => s.Value.Count);
                     foreach (var subCategory in subCategories)
                     {
                         writer.WriteLine("\t\t\t{");
@@ -276,6 +286,7 @@ namespace Terraria.Chat
                 message.Consume();
             }
         }
+
 
         private class DefaultDictionary<TKey, TValue> : Dictionary<TKey, TValue> where TValue : new()
         {
