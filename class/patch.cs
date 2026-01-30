@@ -25,7 +25,7 @@ namespace Terraria.Chat
                 string head = "Head 头部", body = "Body 身体", legs = "Legs 腿部", vanity = "Vanity 时装";
                 string aaccessories = "Accessories 饰品", wings = "Wings 翅膀", hooks = "Hooks 钩爪", pets = "Pets 宠物", lightPets = "LightPets 照明宠物", mounts = "Mounts 坐骑", carts = "Carts 矿车";
                 string tiles = "Tiles 物块", walls = "Walls 墙壁", furniture = "Furniture 家具", pother = "Other 其他";
-                string ammo = "Ammo 弹药", potions = "Potions 药水", food = "Food 食物", pickup = "Pickup 拾取物", cother = "Other 其他", environment = "Environment";
+                string ammo = "Ammo 弹药", potions = "Potions 药水", food = "Food 食物", pickup = "Pickup 拾取物", cother = "Other 其他", environment = "Environment 环境";
                 string bossSummons = "BossSummons 首领召唤物", bossBag = "BossBag 宝藏袋", bait = "Bait 鱼饵", questFish = "QuestFish 任务鱼", relic = "Relic 圣物", fishingCrate = "FishingCrate 宝匣", poles = "Poles 鱼竿";
                 string materials = "Materials 材料", kites = "Kites 风筝", paint = "Paint 油漆", paintTool = "PaintTool 油漆工具", dyes = "Dyes 染料", oothers = "Games 娱乐", gameplay = "Others 其它";
 
