@@ -1,5 +1,7 @@
 const Point typeof System.Drawing.Point
 
+local version = "v2.1.0"
+
 local maxId = 6145
 
 local startChestPos = Point(4741, 1315)
@@ -97,21 +99,21 @@ for partY : int = minChestY, maxChestY, stepChestY  do
 end
 
 world.GameMode = 3
-world.Name = "橙子的全物品 All Item World (journey)"
+world.Name = "橙子的全物品 All Item World " .. version
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName)
 
-world.GameMode = 0
-world.Name = "橙子的全物品 All Item World (classic)"
-print("Save world: " .. world.Name)
-SaveWorld(world, worldName .. "_classic")
+-- world.GameMode = 0
+-- world.Name = "橙子的全物品 All Item World (classic)"
+-- print("Save world: " .. world.Name)
+-- SaveWorld(world, worldName .. "_classic")
 
-world.GameMode = 1
-world.Name = "橙子的全物品 All Item World (expert)"
-print("Save world: " .. world.Name)
-SaveWorld(world, worldName .. "_expert")
+-- world.GameMode = 1
+-- world.Name = "橙子的全物品 All Item World (expert)"
+-- print("Save world: " .. world.Name)
+-- SaveWorld(world, worldName .. "_expert")
 
-world.GameMode = 2
-world.Name = "橙子的全物品 All Item World (master)"
-print("Save world: " .. world.Name)
-SaveWorld(world, worldName .. "_master")
+-- world.GameMode = 2
+-- world.Name = "橙子的全物品 All Item World (master)"
+-- print("Save world: " .. world.Name)
+-- SaveWorld(world, worldName .. "_master")

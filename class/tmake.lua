@@ -3,6 +3,8 @@ const Rectangle typeof System.Drawing.Rectangle
 
 Include(self, "categories")
 
+local version = "v2.1.0"
+
 local oldMaxId = 5455
 
 local startPosX = 2313
@@ -19,6 +21,8 @@ local leftSignOffset : int = 44
 local rightChestOffset : int = 53
 local rightFrameOffset : int = 51
 local rightSignOffset : int = 43
+
+local chestCount : int = 2
 
 local worldName = "all_item_world"
 local world = LoadWorld(worldName)
@@ -79,12 +83,12 @@ for n, class in ipairs(categories.Categories) do
                 world.Tile[framePos.X + 1, framePos.Y + 1].WallColor = 13
             end
 
-            for c : int = 0, 1, 1 do
+            for c : int = 0, chestCount - 1, 1 do
                 local chestPosX : int = originPosX + dir * (part * partStep + chestOffset) + c * 4
                 local chestPosY : int = originPosY - layer * layerStep - 1
                 local chestPos = Point(chestPosX, chestPosY)
 
-                if firstItem < 2 then 
+                if firstItem < chestCount then 
                     Tool.PlaceChest(world, chestPos, chestData) 
                     firstItem = firstItem + 1
                 end
@@ -131,21 +135,21 @@ for n, class in ipairs(categories.Categories) do
 end
 
 world.GameMode = 3
-world.Name = "橙子的全物品 All Item World (journey)"
+world.Name = "橙子的全物品 All Item World " .. version
 print("Save world: " .. world.Name)
 SaveWorld(world, worldName)
 
-world.GameMode = 0
-world.Name = "橙子的全物品 All Item World (classic)"
-print("Save world: " .. world.Name)
-SaveWorld(world, worldName .. "_classic")
+-- world.GameMode = 0
+-- world.Name = "橙子的全物品 All Item World (classic)"
+-- print("Save world: " .. world.Name)
+-- SaveWorld(world, worldName .. "_classic")
 
-world.GameMode = 1
-world.Name = "橙子的全物品 All Item World (expert)"
-print("Save world: " .. world.Name)
-SaveWorld(world, worldName .. "_expert")
+-- world.GameMode = 1
+-- world.Name = "橙子的全物品 All Item World (expert)"
+-- print("Save world: " .. world.Name)
+-- SaveWorld(world, worldName .. "_expert")
 
-world.GameMode = 2
-world.Name = "橙子的全物品 All Item World (master)"
-print("Save world: " .. world.Name)
-SaveWorld(world, worldName .. "_master")
+-- world.GameMode = 2
+-- world.Name = "橙子的全物品 All Item World (master)"
+-- print("Save world: " .. world.Name)
+-- SaveWorld(world, worldName .. "_master")

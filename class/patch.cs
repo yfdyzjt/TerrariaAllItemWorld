@@ -29,6 +29,8 @@ namespace Terraria.Chat
                 string bossSummons = "BossSummons 老板召唤物", bossBag = "BossBag 宝藏袋", bait = "Bait 鱼饵", questFish = "QuestFish 任务鱼", relic = "Relic 圣物", fishingCrate = "FishingCrate 宝匣";
                 string materials = "Materials 材料", kites = "Kites 风筝", poles = "Poles 鱼竿", paint = "Paint 油漆", dyes = "Dyes 染料", oothers = "Others 其它";
 
+                var orderList = new List<string>() { boss, accessories, armor, weapons, tools, placeables, consumables, others };
+
                 var categories = new DefaultDictionary<string, DefaultDictionary<string, List<Item>>>();
 
                 bool[] spears = ItemID.Sets.Factory.CreateBoolSet(ItemID.Spear, ItemID.Trident, ItemID.Swordfish, ItemID.ThunderSpear, ItemID.TheRottedFork, ItemID.DarkLance, ItemID.CobaltNaginata, ItemID.PalladiumPike, ItemID.MythrilHalberd, ItemID.OrichalcumHalberd, ItemID.AdamantiteGlaive, ItemID.TitaniumTrident, ItemID.ObsidianSwordfish, ItemID.Gungnir, ItemID.MushroomSpear, ItemID.MonkStaffT1, ItemID.MonkStaffT2, ItemID.MonkStaffT3, ItemID.ChlorophytePartisan, ItemID.NorthPole);
@@ -36,7 +38,6 @@ namespace Terraria.Chat
                 List<int> sortingPriorityBossSpawnsExclusions = new List<int> { ItemID.LifeCrystal, ItemID.ManaCrystal, ItemID.CellPhone, ItemID.IceMirror, ItemID.MagicMirror, ItemID.LifeFruit, ItemID.TreasureMap, ItemID.Shellphone, ItemID.ShellphoneDummy, ItemID.ShellphoneHell, ItemID.ShellphoneOcean, ItemID.ShellphoneSpawn, ItemID.MagicConch, ItemID.DemonConch };
 
                 // 初始化
-                Main.NewText("Load");
                 for (int id = 1; id < ItemID.Count; id++)
                 {
                     if (!ItemID.Sets.Deprecated[id])
@@ -151,7 +152,6 @@ namespace Terraria.Chat
                 }
 
                 // 排序
-                Main.NewText("Sort");
                 foreach (var category in categories)
                 {
                     foreach (var subCategory in category.Value)
@@ -234,11 +234,12 @@ namespace Terraria.Chat
                 }
 
                 // 写入
-                Main.NewText("Write");
                 var writer = new StreamWriter("categories.lua");
                 writer.WriteLine("Categories = {");
-                foreach (var category in categories)
+                foreach (var categoryName in orderList)
                 {
+                    var category = categories[categoryName];
+
                     writer.WriteLine("\t{");
                     writer.WriteLine("\t\tName = \"" + category.Key + "\",");
                     writer.WriteLine("\t\tSubs = {");
@@ -256,6 +257,9 @@ namespace Terraria.Chat
                 }
                 writer.WriteLine("}");
                 writer.Close();
+
+                Main.NewText("Success!");
+                return;
             }
             // ###################################################################################
             IChatCommand chatCommand;
