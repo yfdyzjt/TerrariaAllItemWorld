@@ -12,7 +12,7 @@ print("Start bestiary:")
 Include(self, "bestiary/bestiary").Bestiary(world)
 
 world.GameMode = 3
-world.Name = "橙子的全物品 All Item World " .. version
+world.Name = "橙子的全物品 🍊 All Item World " .. version
 print("Save world: " .. world.Name)
 SaveWorld(world, "final/" .. worldName)
 
