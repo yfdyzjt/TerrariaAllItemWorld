@@ -1,4 +1,4 @@
-local version = "v3.0.0"
+local version = "v3.1.0"
 
 local worldName = "all_item_world"
 local world = LoadWorld("world/" .. worldName)
@@ -12,7 +12,7 @@ print("Start bestiary:")
 Include(self, "bestiary/bestiary").Bestiary(world)
 
 world.GameMode = 3
-world.Name = "橙子的全物品 🍊 All Item World " .. version
+world.Name = "橙子的全物品 Orange All Item World " .. version
 print("Save world: " .. world.Name)
 SaveWorld(world, "final/" .. worldName)
 

@@ -27,6 +27,8 @@ function Class(world)
     local frameData = FrameProperty.GetFrameData(395)
     local chestData = FrameProperty.GetFrameData(21, 47)
 
+    local illegalIds = {58, 184, 1734, 1735, 1867, 1868, 3453, 3454, 3455, 4143, 5013, 6135, 6136, 6143};
+
     local dir : int = 1
 
     for n, class in ipairs(categories.Categories) do
@@ -63,8 +65,22 @@ function Class(world)
                 local framePos = Point(framePosX, framePosY)
                 local frame = Tool.PlaceTileEntity(world, framePos, frameData)
 
-                frame.Item.Type = id
-                frame.Item.StackSize = 1
+                local isIllegal = false
+                for _, illegalId : int in ipairs(illegalIds) do
+                    if illegalId == id then
+                        print("illegalIds: " .. id)
+                        isIllegal = true
+                        break
+                    end
+                end
+
+                if ~isIllegal then
+                    frame.Item.Type = id
+                    frame.Item.StackSize = 1
+                else
+                    frame.Item.Type = 0
+                    frame.Item.StackSize = 0
+                end
 
                 world.Tile[framePos.X, framePos.Y].InvisibleBlock = true
                 world.Tile[framePos.X, framePos.Y + 1].InvisibleBlock = true
@@ -90,14 +106,24 @@ function Class(world)
 
                     local chest = Tool.GetChest(world, chestPos);
 
-                    chest.Item[i].StackSize = 9999
-                    chest.Item[i + 10].StackSize = 9999
-                    chest.Item[i + 20].StackSize = 9999
-                    chest.Item[i + 30].StackSize = 9999
-                    chest.Item[i].Type = id
-                    chest.Item[i + 10].Type = id
-                    chest.Item[i + 20].Type = id
-                    chest.Item[i + 30].Type = id
+                    local isIllegal = false
+                    for _, illegalId : int in ipairs(illegalIds) do
+                        if illegalId == id then
+                            isIllegal = true
+                            break
+                        end
+                    end
+
+                    if ~isIllegal then
+                        chest.Item[i].StackSize = 9999
+                        chest.Item[i + 10].StackSize = 9999
+                        chest.Item[i + 20].StackSize = 9999
+                        chest.Item[i + 30].StackSize = 9999
+                        chest.Item[i].Type = id
+                        chest.Item[i + 10].Type = id
+                        chest.Item[i + 20].Type = id
+                        chest.Item[i + 30].Type = id
+                    end
 
                     chest.Name = sub.Name .. " " .. count
                 end

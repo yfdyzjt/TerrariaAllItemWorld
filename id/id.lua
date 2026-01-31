@@ -1,7 +1,7 @@
 function Id(world)
     const Point typeof System.Drawing.Point
 
-    local maxId = 6145
+    local maxId = 6144
 
     local startChestPos = Point(4741, 1315)
     local startFramePos = Point(4741, 1289)
@@ -9,7 +9,7 @@ function Id(world)
     local partStep = Point(45, -45)
     local partCount = Point(8, 9)
 
-    local illegalIds = {58, 184, 1734, 1735, 1867, 1868, 3453, 3454, 3455, 4143};
+    local illegalIds = {58, 184, 1734, 1735, 1867, 1868, 3453, 3454, 3455, 4143, 5013, 6135, 6136, 6143};
 
     local frameId : int = 1
     local chestId : int = 1
