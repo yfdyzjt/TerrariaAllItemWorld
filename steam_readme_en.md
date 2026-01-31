@@ -1,5 +1,5 @@
 All-Mode All-Item World, containing every item including v1.4.5 additions.
-[b]Please ensure your map is up to date (v3.0.0). If it is not, please update your map.[/b]
+[b]Please ensure your map is up to date (v3.1.0). If it is not, please update your map.[/b]
 
 [h1]Function:[/h1]
 [list]
