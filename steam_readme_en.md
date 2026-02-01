@@ -1,5 +1,5 @@
 All-Mode All-Item World, containing every item including v1.4.5 additions.
-[b]Please ensure your map is up to date (v3.1.0). If it is not, please update your map.[/b]
+[b]Please ensure your map is up to date (v3.1.1). If it is not, please update your map.[/b]
 
 [h1]Function:[/h1]
 [list]
@@ -25,6 +25,10 @@ All-Mode All-Item World, containing every item including v1.4.5 additions.
 Generated using TMake script world editor[/quote]
 
 [h1]Change log:[/h1]
+[b]v3.1.1[/b]
+[list]
+[*]Fixed item disappearance issue in v1.4.5
+[/list]
 [b]v3.1.0[/b]
 [list]
 [*]Add more furniture categories to the placement category

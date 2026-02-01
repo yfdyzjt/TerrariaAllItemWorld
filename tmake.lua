@@ -1,4 +1,4 @@
-local version = "v3.1.0"
+local version = "v3.1.1"
 
 local worldName = "all_item_world"
 local world = LoadWorld("world/" .. worldName)
@@ -16,17 +16,17 @@ world.Name = "橙子的全物品 Orange All Item World " .. version
 print("Save world: " .. world.Name)
 SaveWorld(world, "final/" .. worldName)
 
--- world.GameMode = 0
+world.GameMode = 0
 -- world.Name = "橙子的全物品 All Item World (classic)"
--- print("Save world: " .. world.Name)
--- SaveWorld(world, worldName .. "_classic")
+print("Save world: " .. world.Name)
+SaveWorld(world, "final/" .. worldName .. "_classic")
 
--- world.GameMode = 1
+world.GameMode = 1
 -- world.Name = "橙子的全物品 All Item World (expert)"
--- print("Save world: " .. world.Name)
--- SaveWorld(world, worldName .. "_expert")
+print("Save world: " .. world.Name)
+SaveWorld(world, "final/" .. worldName .. "_expert")
 
--- world.GameMode = 2
+world.GameMode = 2
 -- world.Name = "橙子的全物品 All Item World (master)"
--- print("Save world: " .. world.Name)
--- SaveWorld(world, worldName .. "_master")
+print("Save world: " .. world.Name)
+SaveWorld(world, "final/" .. worldName .. "_master")
